@@ -79,3 +79,6 @@ Assets/GitMerge-for-Unity*
 
 # Nuget packages
 Assets/Packages/*
+
+# wz files
+wz/*.wz

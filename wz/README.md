@@ -1,0 +1,1 @@
+﻿You should place `*.wz` files at here.
