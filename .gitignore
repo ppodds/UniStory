@@ -81,4 +81,5 @@ Assets/GitMerge-for-Unity*
 Assets/Packages/*
 
 # wz files
-wz/*.wz
+Assets/wz/*.wz
+Assets/wz/*.wz.meta

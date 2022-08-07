@@ -38,6 +38,60 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Background
+    uniqueID: 2581740019
+    locked: 0
+  - name: Obj0
+    uniqueID: 2201861591
+    locked: 0
+  - name: Tile0
+    uniqueID: 2290438575
+    locked: 0
+  - name: Obj1
+    uniqueID: 3378779059
+    locked: 0
+  - name: Tile1
+    uniqueID: 434391187
+    locked: 0
+  - name: Obj2
+    uniqueID: 2413388357
+    locked: 0
+  - name: Tile2
+    uniqueID: 1167585553
+    locked: 0
+  - name: Obj3
+    uniqueID: 4256625239
+    locked: 0
+  - name: Tile3
+    uniqueID: 356210331
+    locked: 0
+  - name: Obj4
+    uniqueID: 1306355035
+    locked: 0
+  - name: Tile4
+    uniqueID: 2077826007
+    locked: 0
+  - name: Obj5
+    uniqueID: 2697076245
+    locked: 0
+  - name: Tile5
+    uniqueID: 3613940467
+    locked: 0
+  - name: Obj6
+    uniqueID: 660455077
+    locked: 0
+  - name: Tile6
+    uniqueID: 1548403385
+    locked: 0
+  - name: Obj7
+    uniqueID: 1485025139
+    locked: 0
+  - name: Tile7
+    uniqueID: 2024658063
+    locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Foreground
+    uniqueID: 3864382095
     locked: 0
