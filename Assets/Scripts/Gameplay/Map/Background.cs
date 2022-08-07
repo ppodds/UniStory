@@ -17,7 +17,7 @@ namespace Gameplay.Map
         private int _wOffset => Screen.width / 2;
         private int _hOffset => Screen.height / 2;
 
-        private MapleAnimation _mapleAnimation;
+        private MapleAnimator _mapleAnimator;
         private bool _animated;
         private int _cx;
         private int _cy;
@@ -52,7 +52,7 @@ namespace Gameplay.Map
             var type = TypeById(src["type"].GetInt());
 
             var obj = MapleObject.Create(src["front"].GetInt() == 1 ? "Foreground" : "Background");
-            var mapleAnimation = MapleAnimation.Create(obj,
+            var mapleAnimation = MapleAnimator.Create(obj,
                 backSrc[src["bS"] + ".img"][animated ? "ani" : "back"][src["no"].ToString()]);
             var background = obj.AddComponent<Background>();
             obj.transform.position = new Vector2(src["x"].GetInt() / Constant.PixelsPerUnit,

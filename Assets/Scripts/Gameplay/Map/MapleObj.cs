@@ -20,7 +20,7 @@ namespace Gameplay.Map
             mapleObject.SpriteRenderer.sortingOrder = z;
             mapleObject.transform.position = pos;
             var mapleObj = mapleObject.AddComponent<MapleObj>();
-            MapleAnimation.Create(mapleObject,
+            MapleAnimator.Create(mapleObject,
                 loader.Map["Obj"][src["oS"] + ".img"][src["l0"].GetString()][src["l1"].GetString()][
                     src["l2"].GetString()]);
             return mapleObj;
