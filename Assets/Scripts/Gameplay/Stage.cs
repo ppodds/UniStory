@@ -1,5 +1,7 @@
 ﻿using System;
+using Audio;
 using Gameplay.Map;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Gameplay
@@ -16,7 +18,9 @@ namespace Gameplay
 
         public Backgrounds Backgrounds { get; private set; }
         public Layers Layers { get; private set; }
-        private Physics.Physics _physics; 
+        private Physics.Physics _physics;
+        private MapInfo _mapInfo;
+        private AudioManager _audioManager;
 
         #endregion
 
@@ -24,8 +28,11 @@ namespace Gameplay
 
         private void Awake()
         {
-            if (Instance == null)
-                Instance = this;
+            if (Instance != null)
+                Destroy(gameObject);
+            
+            Instance = this;
+            _audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
         }
 
         #endregion
@@ -88,6 +95,8 @@ namespace Gameplay
             Layers = Layers.Create(src);
             Layers.transform.SetParent(gameObject.transform);
             _physics = new Physics.Physics(src["foothold"]);
+            _mapInfo = new MapInfo(src["info"]);
+            _audioManager.PlayBGM(_mapInfo.BGM);
         }
 
         private void Respawn(int portalId)
