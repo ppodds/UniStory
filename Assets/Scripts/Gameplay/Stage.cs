@@ -16,6 +16,7 @@ namespace Gameplay
 
         public Backgrounds Backgrounds { get; private set; }
         public Layers Layers { get; private set; }
+        private Physics.Physics _physics; 
 
         #endregion
 
@@ -86,6 +87,7 @@ namespace Gameplay
             Backgrounds.transform.SetParent(gameObject.transform);
             Layers = Layers.Create(src);
             Layers.transform.SetParent(gameObject.transform);
+            _physics = new Physics.Physics(src["foothold"]);
         }
 
         private void Respawn(int portalId)

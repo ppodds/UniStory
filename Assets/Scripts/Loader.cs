@@ -9,7 +9,7 @@ public class Loader
 {
     private static Loader _instance;
     
-    public WzFile Base,
+    public WzDirectory Base,
         Character,
         Effect,
         Etc,
@@ -48,13 +48,13 @@ public class Loader
         return _instance ??= new Loader();
     }
     
-    private WzFile Load(string name)
+    private WzDirectory Load(string name)
     {
         var path = Application.dataPath + "/wz/" + name + ".wz";
         if (!File.Exists(path)) throw new FileNotFoundException();
         var wz = new WzFile(path, WzMapleVersion.EMS);
         wz.ParseWzFile();
-        return wz;
+        return wz.WzDirectory;
     }
     
     private void LoadAll()
