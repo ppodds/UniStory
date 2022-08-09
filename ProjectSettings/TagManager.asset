@@ -92,6 +92,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Portal
+    uniqueID: 2361434143
+    locked: 0
   - name: Foreground
     uniqueID: 3864382095
     locked: 0

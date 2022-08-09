@@ -18,12 +18,13 @@ namespace Gameplay
 
         [field: SerializeField] public Backgrounds Backgrounds { get; private set; }
         [field: SerializeField] public Layers Layers { get; private set; }
-        [field: SerializeField] private Physics.Physics _physics;
-        [field: SerializeField] private MapInfo _mapInfo;
-        [field: SerializeField] private AudioManager _audioManager;
-        [field: SerializeField] private Ladders _ladders;
-        [field: SerializeField] private Seats _seats;
-
+        [SerializeField] private Physics.Physics _physics;
+        [SerializeField] private MapInfo _mapInfo;
+        [SerializeField] private AudioManager _audioManager;
+        [SerializeField] private Ladders _ladders;
+        [SerializeField] private Seats _seats;
+        [SerializeField] private Portals _portals;
+        
         #endregion
 
         #region unity hooks
@@ -100,6 +101,8 @@ namespace Gameplay
             _mapInfo = new MapInfo(src["info"]);
             _ladders = new Ladders(src["ladderRope"]);
             _seats = new Seats(src["seat"]);
+            _portals = Portals.Create(src["portal"], MapId);
+            _portals.transform.SetParent(gameObject.transform);
             _audioManager.PlayBGM(_mapInfo.BGM);
         }
 

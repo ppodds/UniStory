@@ -11,7 +11,7 @@ namespace Graphic
         public MapleFrame(WzObject src)
         {
             MapleTexture = new MapleTexture(src);
-            Delay = (src["delay"]?.GetInt() ?? 0) / Constant.TimeStep;
+            Delay = (src["delay"]?.GetInt() ?? 100) / Constant.TimeStep;
         }
     }
 }
