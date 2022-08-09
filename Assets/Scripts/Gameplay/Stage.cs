@@ -12,15 +12,17 @@ namespace Gameplay
 
         public static Stage Instance { get; private set; }
 
-        public int MapId { get; private set; }
+        [field: SerializeField] public int MapId { get; private set; }
 
         private State _state;
 
-        public Backgrounds Backgrounds { get; private set; }
-        public Layers Layers { get; private set; }
-        private Physics.Physics _physics;
-        private MapInfo _mapInfo;
-        private AudioManager _audioManager;
+        [field: SerializeField] public Backgrounds Backgrounds { get; private set; }
+        [field: SerializeField] public Layers Layers { get; private set; }
+        [field: SerializeField] private Physics.Physics _physics;
+        [field: SerializeField] private MapInfo _mapInfo;
+        [field: SerializeField] private AudioManager _audioManager;
+        [field: SerializeField] private Ladders _ladders;
+        [field: SerializeField] private Seats _seats;
 
         #endregion
 
@@ -30,7 +32,7 @@ namespace Gameplay
         {
             if (Instance != null)
                 Destroy(gameObject);
-            
+
             Instance = this;
             _audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
         }
@@ -96,6 +98,8 @@ namespace Gameplay
             Layers.transform.SetParent(gameObject.transform);
             _physics = new Physics.Physics(src["foothold"]);
             _mapInfo = new MapInfo(src["info"]);
+            _ladders = new Ladders(src["ladderRope"]);
+            _seats = new Seats(src["seat"]);
             _audioManager.PlayBGM(_mapInfo.BGM);
         }
 
