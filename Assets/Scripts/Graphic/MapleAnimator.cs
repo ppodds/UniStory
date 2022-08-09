@@ -1,81 +1,39 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
 using Gameplay;
 using MapleLib.WzLib;
-using MapleLib.WzLib.WzProperties;
-using Unity.VisualScripting;
-using UnityEditor;
-using UnityEditor.Animations;
 using UnityEngine;
-using Util;
+using UnityEngine.Playables;
 
 namespace Graphic
 {
     public class MapleAnimator : MonoBehaviour
     {
-        public List<MapleFrame> Frames { get; } = new List<MapleFrame>();
         private Animator _animator;
-        private bool _animated;
-        private bool _zigzag;
+        private PlayableGraph _playableGraph;
 
         public static MapleAnimator Create(MapleObject obj, WzObject src)
         {
-            var mapleAnimator = obj.AddComponent<MapleAnimator>();
-            if (src is WzCanvasProperty)
-            {
-                mapleAnimator.Frames.Add(new MapleFrame(src));
-            }
-            else
-            {
-                foreach (var sub in new WzObjectEnumerable(src))
-                {
-                    mapleAnimator.Frames.Add(new MapleFrame(sub));
-                }
-            }
-
-            mapleAnimator._animated = mapleAnimator.Frames.Count > 1;
-            mapleAnimator._zigzag = src["zigzag"]?.GetInt() == 1;
+            var mapleAnimator = obj.gameObject.AddComponent<MapleAnimator>();
 
             var animator = mapleAnimator.GetComponent<Animator>();
             if (animator != null)
                 mapleAnimator._animator = animator;
-            mapleAnimator._animator = mapleAnimator.AddComponent<Animator>();
+            mapleAnimator._animator = mapleAnimator.gameObject.AddComponent<Animator>();
 
-            if (mapleAnimator._animated)
-            {
-                var clip = new AnimationClip
-                {
-                    name = "Default"
-                };
-                var spriteBinding = new EditorCurveBinding
-                {
-                    type = typeof(SpriteRenderer),
-                    path = "",
-                    propertyName = "m_Sprite"
-                };
-                var spriteKeyFrames = new ObjectReferenceKeyframe[mapleAnimator.Frames.Count];
-                var delay = 0;
-                for (var i = 0; i < mapleAnimator.Frames.Count; i++)
-                {
-                    spriteKeyFrames[i] = new ObjectReferenceKeyframe
-                    {
-                        time = delay / Constant.TimeStep,
-                        value = mapleAnimator.Frames[i].MapleTexture.Sprite
-                    };
-                    delay += mapleAnimator.Frames[i].Delay;
-                }
-                AnimationUtility.SetObjectReferenceCurve(clip, spriteBinding, spriteKeyFrames);
-                var setting = AnimationUtility.GetAnimationClipSettings(clip);
-                setting.loopTime = true;
-                AnimationUtility.SetAnimationClipSettings(clip, setting);
-                var controller = new AnimatorController();
-                controller.AddLayer("Base Layer");
-                var state = controller.layers[0].stateMachine.AddState("Default");
-                state.motion = clip;
-                mapleAnimator._animator.runtimeAnimatorController = controller;
+            var mapleAnimation = new MapleAnimation(src);
+            if (!mapleAnimation.IsAnimated) {
+                obj.SpriteRenderer.sprite = mapleAnimation.Frames[0].MapleTexture.Sprite;
+                return mapleAnimator;
             }
-            else obj.SpriteRenderer.sprite = mapleAnimator.Frames[0].MapleTexture.Sprite;
+
+            var playableGraph = PlayableGraph.Create("MapleAnimation");
+            var scriptPlayable = ScriptPlayable<MaplePlayableBehavior>.Create(playableGraph);
+            scriptPlayable.GetBehaviour().MapleAnimation = mapleAnimation;
+            scriptPlayable.GetBehaviour().SpriteRenderer = obj.SpriteRenderer;
+            var scriptPlayableOutput = ScriptPlayableOutput.Create(playableGraph, "out");
+            scriptPlayableOutput.SetSourcePlayable(scriptPlayable);
+            playableGraph.Play();
+            mapleAnimator._playableGraph = playableGraph;
 
             return mapleAnimator;
         }
