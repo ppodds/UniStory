@@ -24,7 +24,19 @@ namespace Gameplay
         [SerializeField] private Ladders _ladders;
         [SerializeField] private Seats _seats;
         [SerializeField] private Portals _portals;
-        
+
+        public Physics.Physics Physics => _physics;
+
+        public MapInfo MapInfo => _mapInfo;
+
+        public AudioManager AudioManager => _audioManager;
+
+        public Ladders Ladders => _ladders;
+
+        public Seats Seats => _seats;
+
+        public Portals Portals => _portals;
+
         #endregion
 
         #region unity hooks
@@ -103,11 +115,11 @@ namespace Gameplay
             _seats = new Seats(src["seat"]);
             _portals = Portals.Create(src["portal"], MapId);
             _portals.transform.SetParent(gameObject.transform);
-            _audioManager.PlayBGM(_mapInfo.BGM);
         }
 
         private void Respawn(int portalId)
         {
+            _audioManager.PlayBGM(_mapInfo.BGM);
         }
     }
 }

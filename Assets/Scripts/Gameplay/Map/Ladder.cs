@@ -35,7 +35,7 @@ namespace Gameplay.Map
 
         public bool IsInRange(Vector2 position)
         {
-            var range = new Rect(x - DeltaX, top, 2 * DeltaX, top - bottom + 2 * DeltaY);
+            var range = new Rect(x - DeltaX, bottom, 2 * DeltaX, top - bottom + 2 * DeltaY);
             return range.Contains(position);
         }
 

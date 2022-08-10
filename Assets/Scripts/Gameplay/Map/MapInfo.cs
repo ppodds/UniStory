@@ -44,7 +44,7 @@ namespace Gameplay.Map
                 var right = src["VRRight"].GetInt();
                 var top = src["VRBottom"].GetInt();
                 var bottom = src["VRTop"].GetInt();
-                Border = new Rect(left / Constant.PixelsPerUnit, top / Constant.PixelsPerUnit,
+                Border = new Rect(left / Constant.PixelsPerUnit, bottom / Constant.PixelsPerUnit,
                     (right - left) / Constant.PixelsPerUnit, (top - bottom) / Constant.PixelsPerUnit);
             }
 

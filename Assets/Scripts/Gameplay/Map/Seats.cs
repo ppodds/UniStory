@@ -13,6 +13,7 @@ namespace Gameplay.Map
 
         public Seats(WzObject src)
         {
+            if (src == null) return;
             foreach (var seat in ((WzSubProperty)src).WzProperties)
             {
                 seats.Add(new Seat(seat));
