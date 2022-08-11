@@ -4,6 +4,34 @@ A MapleStory emulator power by Unity and still in development. Aim to support TM
 
 There is no server implementation now. We plan to use other language to implement the server.
 
+## Features
+
+### Map
+
+- [x] Tile
+- [x] BGM
+- [x] Foothold
+- [x] Portal
+- [x] Objs
+- [x] Seats
+- [x] Ladder / Rope
+- [ ] Background (still in development)
+
+### Physics
+
+- [x] Foothold (still some bugs)
+- [x] Gravity
+- [ ] Move (still in development)
+
+### Charactor
+
+- [ ] All
+
+### NetIO
+
+- [ ] All
+
+
 ## Environment
 
 - OS
