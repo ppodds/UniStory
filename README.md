@@ -1,6 +1,6 @@
 ﻿# UniStory
 
-A MapleStory emulator power by Unity and still in development. Aim to support TMS v120 and later version.
+A MapleStory emulator powered by Unity and still in development. Aim to support TMS v120 and later version.
 
 There is no server implementation now. We plan to use other language to implement the server.
 
