@@ -12,6 +12,10 @@ namespace Graphic
 
         public MapleTexture(Wz_Node src)
         {
+            if (src.Value is Wz_Uol)
+            {
+                src = src.GetValue<Wz_Uol>().HandleUol(src);
+            }
             // this is a pointer to a texture asset
             var outLink = src.Nodes["_outlink"]?.GetValue<string>();
             // this is a pointer which point to a texture asset in the same wz image

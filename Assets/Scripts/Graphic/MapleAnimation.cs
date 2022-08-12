@@ -28,8 +28,7 @@ namespace Graphic
             {
                 foreach (var sub in src.Nodes)
                 {
-                    if (sub.GetValue<Wz_Png>() != null)
-                        frames.Add(new MapleFrame(sub));
+                    frames.Add(new MapleFrame(sub));
                 }
             }
 
