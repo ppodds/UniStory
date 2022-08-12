@@ -51,7 +51,7 @@ namespace Gameplay.Map
 
             var type = TypeById(src.Nodes["type"].GetValue<int>());
 
-            var obj = MapleObject.Create(src.Nodes["front"].GetValue<bool>() ? "Foreground" : "Background");
+            var obj = MapleObject.Create(src.FullPathToFile, src.Nodes["front"].GetValue<bool>() ? "Foreground" : "Background");
             var value = src.Nodes["bS"].GetValue<string>();
             var wzImage = backSrc.Nodes[value + ".img"].GetValue<Wz_Image>();
             if (!wzImage.TryExtract())

@@ -19,7 +19,7 @@ namespace Gameplay.Map
 
         public static Portal Create(Wz_Node src, int mapId)
         {
-            var mapleObj = MapleObject.Create("Portal");
+            var mapleObj = MapleObject.Create(src.FullPathToFile, "Portal");
             var portal = mapleObj.AddComponent<Portal>();
             portal.type = (Type)src.Nodes["pt"].GetValue<int>();
             portal.portalName = src.Nodes["pn"].GetValue<string>();

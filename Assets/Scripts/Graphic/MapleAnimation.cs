@@ -11,7 +11,7 @@ namespace Graphic
         [SerializeField] private List<MapleFrame> frames = new List<MapleFrame>();
         [SerializeField] private bool isAnimated;
         [SerializeField] private bool zigzag;
-        
+
         public List<MapleFrame> Frames => frames;
 
         public bool IsAnimated => isAnimated;
@@ -28,7 +28,8 @@ namespace Graphic
             {
                 foreach (var sub in src.Nodes)
                 {
-                    frames.Add(new MapleFrame(sub));
+                    if (sub.GetValue<Wz_Png>() != null)
+                        frames.Add(new MapleFrame(sub));
                 }
             }
 

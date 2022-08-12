@@ -22,7 +22,7 @@ namespace Gameplay.Map
             var z = tileSrc.FindNodeByPath("z")?.GetValue<int>() ?? 0;
             if (z == 0)
                 z = tileSrc.FindNodeByPath("zM")?.GetValue<int>() ?? 0;
-            var mapleObject = MapleObject.Create(texture, "Tile" + layer);
+            var mapleObject = MapleObject.Create(tileSrc.FullPathToFile, texture, "Tile" + layer);
             mapleObject.SpriteRenderer.sortingOrder = z;
             mapleObject.transform.position = pos;
             var mapleTile = mapleObject.AddComponent<MapleTile>();

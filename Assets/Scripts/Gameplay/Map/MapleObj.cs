@@ -17,7 +17,7 @@ namespace Gameplay.Map
             var flip = src.Nodes["f"].GetValue<bool>();
             var z = src.Nodes["z"].GetValue<int>();
 
-            var mapleObject = MapleObject.Create("Obj" + layer);
+            var mapleObject = MapleObject.Create(src.FullPathToFile, "Obj" + layer);
             mapleObject.SpriteRenderer.sortingOrder = z;
             mapleObject.transform.position = pos;
             var mapleObj = mapleObject.AddComponent<MapleObj>();
@@ -30,7 +30,8 @@ namespace Gameplay.Map
             var l1 = src.Nodes["l1"].GetValue<string>();
             var l2 = src.Nodes["l2"].GetValue<string>();
             // It may contains other nodes
-            MapleAnimator.Create(mapleObject, wzImage.Node.Nodes[l0].Nodes[l1].Nodes[l2].Nodes["0"]);
+            var objAnimation = wzImage.Node.Nodes[l0].Nodes[l1].Nodes[l2];
+            MapleAnimator.Create(mapleObject, objAnimation.Nodes["seat"] != null ? objAnimation.Nodes["0"] : objAnimation);
             return mapleObj;
         }
     }
