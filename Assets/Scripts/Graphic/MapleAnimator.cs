@@ -1,8 +1,8 @@
 ﻿using System;
 using Gameplay;
-using MapleLib.WzLib;
 using UnityEngine;
 using UnityEngine.Playables;
+using WzComparerR2.WzLib;
 
 namespace Graphic
 {
@@ -11,7 +11,7 @@ namespace Graphic
         private Animator _animator;
         private PlayableGraph _playableGraph;
 
-        public static MapleAnimator Create(MapleObject obj, WzObject src)
+        public static MapleAnimator Create(MapleObject obj, Wz_Node src)
         {
             var mapleAnimator = obj.gameObject.AddComponent<MapleAnimator>();
 

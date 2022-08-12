@@ -1,8 +1,7 @@
 ﻿using System;
 using Audio;
-using MapleLib.WzLib;
-using MapleLib.WzLib.WzProperties;
 using UnityEngine;
+using WzComparerR2.WzLib;
 
 namespace Gameplay.Map
 {
@@ -36,29 +35,32 @@ namespace Gameplay.Map
         public bool IsTown => isTown;
 
 
-        public MapInfo(WzObject src)
+        public MapInfo(Wz_Node src)
         {
-            if (src["VRLeft"] != null)
+            if (src.Nodes["VRLeft"] != null)
             {
-                var left = src["VRLeft"].GetInt();
-                var right = src["VRRight"].GetInt();
-                var top = src["VRBottom"].GetInt();
-                var bottom = src["VRTop"].GetInt();
+                var left = src.Nodes["VRLeft"].GetValue<int>();
+                var right = src.Nodes["VRRight"].GetValue<int>();
+                var top = src.Nodes["VRBottom"].GetValue<int>();
+                var bottom = src.Nodes["VRTop"].GetValue<int>();
                 Border = new Rect(left / Constant.PixelsPerUnit, bottom / Constant.PixelsPerUnit,
                     (right - left) / Constant.PixelsPerUnit, (top - bottom) / Constant.PixelsPerUnit);
             }
 
-            var bgmPath = src["bgm"].GetString();
+            var bgmPath = src.Nodes["bgm"].GetValue<string>();
             var split = bgmPath.Split("/");
             var loader = Loader.getInstance();
-            var bgmRaw = (WzBinaryProperty)loader.Sound[split[0] + ".img"][split[1]];
-            bgm = Mp3Loader.LoadMp3(split[1], bgmRaw.GetBytes());
-            cloud = src["cloud"].GetInt() == 1;
-            fieldLimit = src["fieldLimit"].GetInt();
-            hideMinimap = src["hideMinimap"].GetInt() == 1;
-            mapMark = src["mapMark"].GetString();
-            isUnderWater = src["swim"].GetInt() == 1;
-            isTown = src["town"].GetInt() == 1;
+            var wzImage = loader.Sound.Nodes[split[0] + ".img"].GetValue<Wz_Image>();
+            if (!wzImage.TryExtract())
+                throw new Exception();
+            var bgmRaw = wzImage.Node.Nodes[split[1]];
+            bgm = Mp3Loader.LoadMp3(split[1], bgmRaw.GetValue<Wz_Sound>().ExtractSound());
+            cloud = src.Nodes["cloud"].GetValue<bool>();
+            fieldLimit = src.Nodes["fieldLimit"].GetValue<int>();
+            hideMinimap = src.Nodes["hideMinimap"].GetValue<bool>();
+            mapMark = src.Nodes["mapMark"].GetValue<string>();
+            isUnderWater = src.Nodes["swim"].GetValue<bool>();
+            isTown = src.Nodes["town"].GetValue<bool>();
         }
     }
 }

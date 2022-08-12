@@ -1,17 +1,16 @@
-﻿using Graphic;
-using MapleLib.WzLib;
-using UnityEngine;
+﻿using UnityEngine;
 using Util;
+using WzComparerR2.WzLib;
 
 namespace Gameplay.Map
 {
     public class Objs : MonoBehaviour
     {
-        public static Objs Create(WzObject src, int layer)
+        public static Objs Create(Wz_Node src, int layer)
         {
             var obj = new GameObject("Objs");
             
-            foreach (var objNode in new WzObjectEnumerable(src["obj"]))
+            foreach (var objNode in src.FindNodeByPath("obj").Nodes)
             {
                 var tile = MapleObj.Create(objNode, layer);
                 tile.transform.SetParent(obj.transform);

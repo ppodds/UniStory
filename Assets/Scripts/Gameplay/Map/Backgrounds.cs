@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using MapleLib.WzLib;
-using UnityEngine;
+﻿using UnityEngine;
+using WzComparerR2.WzLib;
 
 namespace Gameplay.Map
 {
@@ -10,21 +7,21 @@ namespace Gameplay.Map
     {
         private bool _black;
 
-        public static Backgrounds Create(WzObject src)
+        public static Backgrounds Create(Wz_Node src)
         {
             var obj = new GameObject("Backgrounds");
             var backgrounds = obj.AddComponent<Backgrounds>();
             var no = 0;
-            var back = src[no.ToString()];
+            var back = src.Nodes[no.ToString()];
             while (back != null)
             {
                 var child = Background.Create(back);
                 child.transform.SetParent(obj.transform);
                 no++;
-                back = src[no.ToString()];
+                back = src.FindNodeByPath(no.ToString());
             }
 
-            backgrounds._black = src["0"]["bS"].GetString() == "";
+            backgrounds._black = src.FindNodeByPath("0\\bS").GetValue<string>() == "";
             return backgrounds;
         }
     }

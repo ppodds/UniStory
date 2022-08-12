@@ -1,11 +1,11 @@
-﻿using MapleLib.WzLib;
-using UnityEngine;
+﻿using UnityEngine;
+using WzComparerR2.WzLib;
 
 namespace Gameplay.Map
 {
     public class Layers : MonoBehaviour
     {
-        public static Layers Create(WzObject src)
+        public static Layers Create(Wz_Node src)
         {
             var obj = new GameObject("Layers");
 

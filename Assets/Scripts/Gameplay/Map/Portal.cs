@@ -1,7 +1,8 @@
-﻿using Graphic;
-using MapleLib.WzLib;
+﻿using System;
+using Graphic;
 using Unity.VisualScripting;
 using UnityEngine;
+using WzComparerR2.WzLib;
 
 namespace Gameplay.Map
 {
@@ -15,17 +16,20 @@ namespace Gameplay.Map
         [SerializeField] private Vector2 position;
         [SerializeField] private bool isValid;
         [SerializeField] private bool isTargetInSameMap;
-        public static Portal Create(WzObject src, int mapId)
+
+        public static Portal Create(Wz_Node src, int mapId)
         {
             var mapleObj = MapleObject.Create("Portal");
             var portal = mapleObj.AddComponent<Portal>();
-            portal.type = (Type)src["pt"].GetInt();
-            portal.portalName = src["pn"].GetString();
-            portal.targetName = src["tn"].GetString();
-            portal.targetMap = src["tm"].GetInt();
+            portal.type = (Type)src.Nodes["pt"].GetValue<int>();
+            portal.portalName = src.Nodes["pn"].GetValue<string>();
+            portal.targetName = src.Nodes["tn"].GetValue<string>();
+            portal.targetMap = src.Nodes["tm"].GetValue<int>();
             portal.isValid = portal.targetMap < 999999999;
             portal.isTargetInSameMap = portal.targetMap == mapId;
-            portal.position = new Vector2(src["x"].GetInt(), -src["y"].GetInt()) / Constant.PixelsPerUnit;
+            portal.position =
+                new Vector2(src.Nodes["x"].GetValue<int>(), -src.Nodes["y"].GetValue<int>()) /
+                Constant.PixelsPerUnit;
             portal.transform.position = portal.position;
             var ani = portal.GetAnimationWz();
             if (ani != null)
@@ -33,17 +37,20 @@ namespace Gameplay.Map
             return portal;
         }
 
-        private WzObject GetAnimationWz()
+        private Wz_Node GetAnimationWz()
         {
-            var src = Loader.getInstance().Map["MapHelper.img"]["portal"]["game"];
+            var wzImage = Loader.getInstance().Map.Nodes["MapHelper.img"].GetValue<Wz_Image>();
+            if (!wzImage.TryExtract())
+                throw new Exception();
+            var src = wzImage.Node.Nodes["portal"].Nodes["game"];
             return type switch
             {
-                Type.Hidden => src["ph"]["default"]["portalContinue"],
-                Type.Regular => src["pv"],
+                Type.Hidden => src.Nodes["ph"].Nodes["default"].Nodes["portalContinue"],
+                Type.Regular => src.Nodes["pv"].Nodes["default"],
                 _ => null
             };
         }
-        
+
         public enum Type
         {
             Spawn,

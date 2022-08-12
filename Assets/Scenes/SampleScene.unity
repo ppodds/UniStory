@@ -152,7 +152,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0e6322a1eae400fbc626f1aaafd0d34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mapId: 106020400
+  mapId: 100000000
 --- !u!4 &96716314
 Transform:
   m_ObjectHideFlags: 0
@@ -537,15 +537,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62d44dfd322d40d19ff5900fcf103e43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flags: 0
-  footholdId: 0
-  footholdSlope: 0
-  footholdLayer: 0
-  groundBelow: 0
-  isOnGround: 1
-  isEnableJd: 0
-  force: {x: 0, y: 0}
-  acceleration: {x: 0, y: 0}
+  info:
+    flags: 0
+    footholdId: 0
+    footholdSlope: 0
+    footholdLayer: 0
+    groundBelow: 0
+    isOnGround: 1
+    isEnableJd: 0
+    force: {x: 0, y: 0}
+    speed: {x: 0, y: 0}
+    acceleration: {x: 0, y: 0}
+  constraints:
+    FreezeXPosition: 0
+    FreezeYPosition: 0
 --- !u!1001 &3537316992226161928
 PrefabInstance:
   m_ObjectHideFlags: 0

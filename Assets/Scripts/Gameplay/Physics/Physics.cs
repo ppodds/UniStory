@@ -1,7 +1,6 @@
 ﻿using System;
-using MapleLib.WzLib;
 using UnityEngine;
-using UnityEngine.Serialization;
+using WzComparerR2.WzLib;
 
 namespace Gameplay.Physics
 {
@@ -12,7 +11,7 @@ namespace Gameplay.Physics
 
         public FootholdTree FootholdTree => footholdTree;
 
-        public Physics(WzObject src)
+        public Physics(Wz_Node src)
         {
             footholdTree = new FootholdTree(src);
         }

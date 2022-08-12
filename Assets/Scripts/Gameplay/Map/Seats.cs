@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using MapleLib.WzLib;
-using MapleLib.WzLib.WzProperties;
 using UnityEngine;
+using WzComparerR2.WzLib;
 
 namespace Gameplay.Map
 {
@@ -11,10 +10,10 @@ namespace Gameplay.Map
     {
         [SerializeField] private List<Seat> seats = new List<Seat>();
 
-        public Seats(WzObject src)
+        public Seats(Wz_Node src)
         {
             if (src == null) return;
-            foreach (var seat in ((WzSubProperty)src).WzProperties)
+            foreach (var seat in src.Nodes)
             {
                 seats.Add(new Seat(seat));
             }

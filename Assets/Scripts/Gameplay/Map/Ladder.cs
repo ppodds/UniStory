@@ -1,7 +1,6 @@
 ﻿using System;
-using MapleLib.WzLib;
 using UnityEngine;
-using UnityEngine.Serialization;
+using WzComparerR2.WzLib;
 
 namespace Gameplay.Map
 {
@@ -25,12 +24,12 @@ namespace Gameplay.Map
         private const float DeltaX = 10 / Constant.PixelsPerUnit;
         private const float DeltaY = 5 / Constant.PixelsPerUnit;
 
-        public Ladder(WzObject src)
+        public Ladder(Wz_Node src)
         {
-            x = src["x"].GetInt() / Constant.PixelsPerUnit;
-            top = -src["y1"].GetInt() / Constant.PixelsPerUnit;
-            bottom = -src["y2"].GetInt() / Constant.PixelsPerUnit;
-            isLadder = src["l"].GetInt() == 1;
+            x = src.FindNodeByPath("x").GetValue<int>() / Constant.PixelsPerUnit;
+            top = -src.FindNodeByPath("y1").GetValue<int>() / Constant.PixelsPerUnit;
+            bottom = -src.FindNodeByPath("y2").GetValue<int>() / Constant.PixelsPerUnit;
+            isLadder = src.FindNodeByPath("l").GetValue<bool>();
         }
 
         public bool IsInRange(Vector2 position)

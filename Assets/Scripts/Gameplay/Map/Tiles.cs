@@ -1,22 +1,26 @@
-﻿using MapleLib.WzLib;
-using UnityEngine;
-using Util;
+﻿using UnityEngine;
+using WzComparerR2.WzLib;
 
 namespace Gameplay.Map
 {
     public class Tiles : MonoBehaviour
     {
-        public static Tiles Create(WzObject src, int layer)
+        public static Tiles Create(Wz_Node src, int layer)
         {
             var obj = new GameObject("Tiles");
-            var tileSet = src["info"]["tS"] + ".img";
-            foreach (var tileNode in new WzObjectEnumerable(src["tile"]))
+            var tiles = obj.AddComponent<Tiles>();
+            // tileSet == null means we don't need tiles
+            if (src.Nodes["info"].Nodes["tS"] == null)
+                return tiles;
+            
+            var tileSet = src.Nodes["info"].Nodes["tS"].GetValue<string>() + ".img";
+            foreach (var tileNode in src.Nodes["tile"].Nodes)
             {
                 var tile = MapleTile.Create(tileNode, tileSet, layer);
                 tile.transform.SetParent(obj.transform);
             }
 
-            return obj.AddComponent<Tiles>();
+            return tiles;
         }
     }
 }

@@ -81,5 +81,6 @@ Assets/GitMerge-for-Unity*
 Assets/Packages/*
 
 # wz files
-Assets/wz/*.wz
-Assets/wz/*.wz.meta
+Assets/wz/
+!Assets/wz/README.md
+!Assets/wz/README.md.meta

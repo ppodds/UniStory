@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using MapleLib.WzLib;
-using MapleLib.WzLib.WzProperties;
 using UnityEngine;
-using UnityEngine.Serialization;
-using Util;
+using WzComparerR2.WzLib;
 
 namespace Graphic
 {
@@ -14,30 +11,29 @@ namespace Graphic
         [SerializeField] private List<MapleFrame> frames = new List<MapleFrame>();
         [SerializeField] private bool isAnimated;
         [SerializeField] private bool zigzag;
-
-
+        
         public List<MapleFrame> Frames => frames;
 
         public bool IsAnimated => isAnimated;
 
         public bool Zigzag => zigzag;
 
-        public MapleAnimation(WzObject src)
+        public MapleAnimation(Wz_Node src)
         {
-            if (src is WzCanvasProperty)
+            if (src.GetValue<Wz_Png>() != null)
             {
                 frames.Add(new MapleFrame(src));
             }
             else
             {
-                foreach (var sub in new WzObjectEnumerable(src))
+                foreach (var sub in src.Nodes)
                 {
                     frames.Add(new MapleFrame(sub));
                 }
             }
 
             isAnimated = frames.Count > 1;
-            zigzag = src["zigzag"]?.GetInt() == 1;
+            zigzag = src.FindNodeByPath("zigzag")?.GetValue<bool>() ?? false;
         }
     }
 }

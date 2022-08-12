@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using MapleLib.WzLib;
-using MapleLib.WzLib.WzProperties;
 using UnityEngine;
-using UnityEngine.Serialization;
+using WzComparerR2.WzLib;
 
 namespace Gameplay.Physics
 {
@@ -17,16 +15,16 @@ namespace Gameplay.Physics
     {
         [SerializeField] private SerializableFootholdDictionary footholds = new SerializableFootholdDictionary();
 
-        public FootholdTree(WzObject src)
+        public FootholdTree(Wz_Node src)
         {
-            foreach (var layer in ((WzSubProperty)src).WzProperties)
+            foreach (var layer in src.Nodes)
             {
-                foreach (var a in layer.WzProperties)
+                foreach (var a in layer.Nodes)
                 {
-                    foreach (var b in a.WzProperties)
+                    foreach (var b in a.Nodes)
                     {
-                        var id = int.Parse(b.Name);
-                        var foothold = new Foothold(b, id, int.Parse(layer.Name));
+                        var id = int.Parse(b.Text);
+                        var foothold = new Foothold(b, id, int.Parse(layer.Text));
                         footholds.Add(id, foothold);
                     }
                 }

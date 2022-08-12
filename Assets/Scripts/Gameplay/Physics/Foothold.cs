@@ -1,6 +1,6 @@
 ﻿using System;
-using MapleLib.WzLib;
 using UnityEngine;
+using WzComparerR2.WzLib;
 
 namespace Gameplay.Physics
 {
@@ -25,16 +25,16 @@ namespace Gameplay.Physics
 
         [SerializeField] private float y2;
 
-        public Foothold(WzObject src, int id, int layer)
+        public Foothold(Wz_Node src, int id, int layer)
         {
-            prev = src["prev"].GetInt();
-            next = src["next"].GetInt();
+            prev = src.FindNodeByPath("prev").GetValue<int>();
+            next = src.FindNodeByPath("next").GetValue<int>();
             this.id = id;
             this.layer = layer;
-            var x1 = src["x1"].GetInt();
-            var x2 = src["x2"].GetInt();
-            var y1 = -src["y1"].GetInt();
-            var y2 = -src["y2"].GetInt();
+            var x1 = src.FindNodeByPath("x1").GetValue<int>();
+            var x2 = src.FindNodeByPath("x2").GetValue<int>();
+            var y1 = -src.FindNodeByPath("y1").GetValue<int>();
+            var y2 = -src.FindNodeByPath("y2").GetValue<int>();
             rect = new Rect((x1 < x2 ? x1 : x2) / Constant.PixelsPerUnit, (y1 < y2 ? y1 : y2) / Constant.PixelsPerUnit,
                 Math.Abs(x1 - x2) / Constant.PixelsPerUnit, Math.Abs(y1 - y2) / Constant.PixelsPerUnit);
             this.x1 = x1 / Constant.PixelsPerUnit;

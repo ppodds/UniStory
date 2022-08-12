@@ -1,6 +1,6 @@
 ﻿using System;
-using MapleLib.WzLib;
 using UnityEngine;
+using WzComparerR2.WzLib;
 
 namespace Gameplay.Map
 {
@@ -11,9 +11,9 @@ namespace Gameplay.Map
         
         private const float DeltaX = 10 / Constant.PixelsPerUnit;
         private const float DeltaY = 5 / Constant.PixelsPerUnit;
-        public Seat(WzObject src)
+        public Seat(Wz_Node src)
         {
-            var point = src.GetPoint();
+            var point = src.GetValue<Wz_Vector>();
             position = new Vector2(point.X, -point.Y) / Constant.PixelsPerUnit;
         }
         

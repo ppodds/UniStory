@@ -1,6 +1,4 @@
-﻿using MapleLib.WzLib;
-using UnityEngine;
-using Util;
+﻿using WzComparerR2.WzLib;
 
 namespace Graphic
 {
@@ -8,10 +6,10 @@ namespace Graphic
     {
         public MapleTexture MapleTexture { get; }
         public float Delay { get; } 
-        public MapleFrame(WzObject src)
+        public MapleFrame(Wz_Node src)
         {
             MapleTexture = new MapleTexture(src);
-            Delay = (src["delay"]?.GetInt() ?? 100) / Constant.TimeStep;
+            Delay = (src.FindNodeByPath("delay")?.GetValue<int>() ?? 100) / Constant.TimeStep;
         }
     }
 }

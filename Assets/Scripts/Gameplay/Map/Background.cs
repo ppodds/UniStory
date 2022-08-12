@@ -1,9 +1,9 @@
 ﻿using System;
 using Gameplay.Physics;
 using Graphic;
-using MapleLib.WzLib;
 using Unity.VisualScripting;
 using UnityEngine;
+using WzComparerR2.WzLib;
 
 namespace Gameplay.Map
 {
@@ -18,46 +18,57 @@ namespace Gameplay.Map
         private int _hOffset => Screen.height / 2;
 
         private MapleAnimator _mapleAnimator;
-        private bool _animated;
-        private int _cx;
-        private int _cy;
-        private double _rx;
-        private double _ry;
-        private int _hTile;
-        private int _vTile;
-        private float _opacity;
-        private bool _flipped;
+        [SerializeField] private bool animated;
+        [SerializeField] private int cx;
+        [SerializeField] private int cy;
+        [SerializeField] private double rx;
+        [SerializeField] private double ry;
+        [SerializeField] private int hTile;
+        [SerializeField] private int vTile;
+        [SerializeField] private float opacity;
+        [SerializeField] private bool flipped;
 
         private MovingObject _movingObject;
 
         #endregion
 
-        public static Background Create(WzObject src)
+        public static Background Create(Wz_Node src)
         {
             var loader = Loader.getInstance();
-            var backSrc = loader.Map["Back"];
-            var animated = src["ani"].GetInt() == 1;
+            var backSrc = loader.Map.Nodes["Back"];
+            var animated = src.Nodes["ani"].GetValue<bool>();
 
-            var opacity = src["a"].GetFloat();
-            var flipped = src["f"].GetInt() == 1;
-            var cx = src["cx"].GetInt();
-            var cy = src["cy"].GetInt();
-            var rx = src["rx"].GetInt();
-            var ry = src["ry"].GetInt();
+            var opacity = src.Nodes["a"].GetValue<float>();
+            var flipped = src.Nodes["f"].GetValue<bool>();
+            var cx = src.Nodes["cx"].GetValue<int>();
+            var cy = src.Nodes["cy"].GetValue<int>();
+            var rx = src.Nodes["rx"].GetValue<int>();
+            var ry = src.Nodes["ry"].GetValue<int>();
 
             var movingObject = new MovingObject();
             // _movingObject.set_x(src["x"]);
             // _movingObject.set_y(src["y"]);
 
-            var type = TypeById(src["type"].GetInt());
+            var type = TypeById(src.Nodes["type"].GetValue<int>());
 
-            var obj = MapleObject.Create(src["front"].GetInt() == 1 ? "Foreground" : "Background");
+            var obj = MapleObject.Create(src.Nodes["front"].GetValue<bool>() ? "Foreground" : "Background");
+            var value = src.Nodes["bS"].GetValue<string>();
+            var wzImage = backSrc.Nodes[value + ".img"].GetValue<Wz_Image>();
+            if (!wzImage.TryExtract())
+                throw new Exception();
+
             var mapleAnimation = MapleAnimator.Create(obj,
-                backSrc[src["bS"] + ".img"][animated ? "ani" : "back"][src["no"].ToString()]);
+                wzImage.Node.Nodes[animated ? "ani" : "back"].Nodes[src.Nodes["no"].GetValue<int>().ToString()]);
             var background = obj.AddComponent<Background>();
-            obj.transform.position = new Vector2(src["x"].GetInt() / Constant.PixelsPerUnit,
-                -src["y"].GetInt() / Constant.PixelsPerUnit);
-
+            obj.transform.position = new Vector2(src.Nodes["x"].GetValue<int>() / Constant.PixelsPerUnit,
+                -src.Nodes["y"].GetValue<int>() / Constant.PixelsPerUnit);
+            background.animated = animated;
+            background.cx = cx;
+            background.cy = cy;
+            background.rx = rx;
+            background.ry = ry;
+            background.flipped = flipped;
+            background.opacity = opacity;
             // background.SetType(type);
             return background;
         }

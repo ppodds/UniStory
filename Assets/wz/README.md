@@ -1,1 +1,1 @@
-﻿You should place `*.wz` files at here.
+﻿You should put wz folders at here.

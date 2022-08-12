@@ -3,6 +3,7 @@ using Audio;
 using Gameplay.Map;
 using Unity.VisualScripting;
 using UnityEngine;
+using WzComparerR2.WzLib;
 
 namespace Gameplay
 {
@@ -102,18 +103,23 @@ namespace Gameplay
             var strId = padding + mapId;
             var prefix = (mapId / 100000000).ToString();
             var loader = Loader.getInstance();
-            var src = MapId == -1
-                ? loader.UI["CashShopPreview.img"]
-                : loader.Map["Map"]["Map" + prefix][strId + ".img"];
-            Backgrounds = Backgrounds.Create(src["back"]);
+            var wzImage = (MapId == -1
+                ? loader.UI.Nodes["CashShopPreview.img"]
+                : loader.Map.Nodes["Map"].Nodes["Map" + prefix].Nodes[strId + ".img"]).GetValue<Wz_Image>();
+            
+            if (!wzImage.TryExtract())
+                throw new Exception();
+            
+            var src = wzImage.Node;
+            Backgrounds = Backgrounds.Create(src.Nodes["back"]);
             Backgrounds.transform.SetParent(gameObject.transform);
             Layers = Layers.Create(src);
             Layers.transform.SetParent(gameObject.transform);
-            _physics = new Physics.Physics(src["foothold"]);
-            _mapInfo = new MapInfo(src["info"]);
-            _ladders = new Ladders(src["ladderRope"]);
-            _seats = new Seats(src["seat"]);
-            _portals = Portals.Create(src["portal"], MapId);
+            _physics = new Physics.Physics(src.FindNodeByPath("foothold"));
+            _mapInfo = new MapInfo(src.FindNodeByPath("info"));
+            _ladders = new Ladders(src.FindNodeByPath("ladderRope"));
+            _seats = new Seats(src.FindNodeByPath("seat"));
+            _portals = Portals.Create(src.FindNodeByPath("portal"), MapId);
             _portals.transform.SetParent(gameObject.transform);
         }
 
